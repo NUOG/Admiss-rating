@@ -1,0 +1,3 @@
+<h3>Info Caption</h3>
+
+<p>Short Message.</p>

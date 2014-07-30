@@ -140,11 +140,12 @@ NAVBAR;
 }
 
 function showTableWrapper() {
+    $infoFile = file_get_contents(getcwd() . DIRECTORY_SEPARATOR . 'upload/info.txt');
     $sitePath = dirname($_SERVER['SCRIPT_NAME']) . "/getData.php";
     echo <<< TABLE
     <br />
     <div id="table-wrapper" class="container" style="min-height: 340px;">
-    
+        $infoFile
     </div>
     
     <script>
