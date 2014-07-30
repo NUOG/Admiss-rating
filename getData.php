@@ -38,18 +38,36 @@ function isPozaKonkurs($konkurs) {
     }    
 }
 
-function isStatus($status) {
+function isStateForm($status, $derg, $plat) {
+    
+    if ($status == "До наказу") {
+        $status = "Зараховано";
+    }
+    
+    if ($derg == '1') {
+        return '<span class="glyphicon glyphicon-ok-sign label label-success"> ' . $status . '</span> ' ;
+    } elseif ($plat == '1') {
+        return '<span class="glyphicon glyphicon-ok-sign label label-primary"> ' . $status . '</span>' ;
+    } else {
+        return '<span class="glyphicon glyphicon-plus-sign label label-default"> ' . $status . '</span>' ;
+    }
+}
+    
+function isStatus($status, $derg, $plat) {
+    
     switch ($status) {
         case "Допущено":
-            return '<span class="glyphicon glyphicon-plus-sign label label-primary"> ' . $status . '</span>' ;
+            return isStateForm($status, $derg, $plat);
             break;
         case "Рекомендовано":
-            return '<span class="glyphicon glyphicon-ok-sign label label-success"> ' . $status . '</span> ' ;
+            return isStateForm($status, $derg, $plat);
             break;
         case "До наказу":
-            return '<span class="glyphicon glyphicon-thumbs-up label label-danger"> ' . $status . '</span> ' ;
+            return isStateForm($status, $derg, $plat);
             break;
-
+        case "Нова заява":
+            return isStateForm($status, $derg, $plat);
+            break;
         default:
             break;
     };
@@ -61,12 +79,12 @@ function showEntrantRating($specialnist, $specialnist2, $course, $formaNavch, $o
         $tableValue = '';
         if ($course != '5') {
             //echo "курс 1 \n";
-            $resultTable = $conn->prepare('SELECT `e6`, `e2`, `e4`, `e8`, `e29`, `e30`, replace(`e12`, ",", ".") as `ce12`, `e41`, `e14`, `e7`, `e43` 
+            $resultTable = $conn->prepare('SELECT `e6`, `e2`, `e4`, `e8`, `e29`, `e30`, replace(`e12`, ",", ".") as `ce12`, `e41`, `e14`, `e7`, `e43`, `e0`, `e11` 
                 FROM `entrant`
                 WHERE
                 (`e14` = :specialnist) and 
                 (`e7` = :course) and 
-                (`e4` IN ("Допущено", "Рекомендовано", "До наказу") and
+                (`e4` IN ("Допущено", "Рекомендовано", "До наказу", "Нова заява") and
                 (`e8` = :formaNavch) and
                 (`e43` like :vstupNaOsnovi ))
                 ORDER BY `ce12` DESC;');
@@ -75,13 +93,13 @@ function showEntrantRating($specialnist, $specialnist2, $course, $formaNavch, $o
         } else {            
             //echo "курс 5 \n" . $specialnist . ' ' . $course . ' ' . $okr;
             
-            $resultTable = $conn->prepare('SELECT `e6`, `e2`, `e4`, `e8`, `e29`, `e30`, replace(`e12`, ",", ".") as `ce12`, `e41`, `e14`, `e16`, `e7`, `e43`, `e9` 
+            $resultTable = $conn->prepare('SELECT `e6`, `e2`, `e4`, `e8`, `e29`, `e30`, replace(`e12`, ",", ".") as `ce12`, `e41`, `e14`, `e16`, `e7`, `e43`, `e9`, `e0`, `e11` 
                 FROM `entrant`
                 WHERE
                 (`e16` = :specialnist2) and 
                 (`e7` = :course) and 
                 (`e9` like :okr ) and
-                (`e4` IN ("Допущено", "Рекомендовано", "До наказу") and
+                (`e4` IN ("Допущено", "Рекомендовано", "До наказу", "Нова заява") and
                 (`e8` = :formaNavch))
                 ORDER BY `ce12` DESC;');
             $resultTable->bindValue(':okr', '%'.$okr.'%', PDO::PARAM_STR);
@@ -97,7 +115,7 @@ function showEntrantRating($specialnist, $specialnist2, $course, $formaNavch, $o
         while ($row = $resultTable->fetch()) {
             $original = isOriginal($row['e41']);
             //$pozaKonkurs = isOriginal($row['e30']);
-            $status = isStatus($row['e4']);
+            $status = isStatus($row['e4'], $row['e0'], $row['e11']);
             $pilga = isOriginal($row['e29']);
             $tableValue .= <<< TABLERESULT
             
