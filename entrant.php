@@ -242,7 +242,7 @@ function drawTable($tableValue) {
             
                     /* "order": [[ 5, "desc" ], [ 4, "desc" ]], */
             
-                    "order": [[ 4, "desc" ]],
+                    "order": [[ 3, "desc" ], [ 4, "desc" ]],
             
                     "aLengthMenu": [
                             [25, 50, 100, 200, -1],
