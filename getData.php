@@ -73,23 +73,33 @@ function isStatus($status, $derg, $plat) {
     };
 }
 
-function showEntrantRating($specialnist, $specialnist2, $course, $formaNavch, $okr, $vstupNaOsnovi) {
+function showEntrantRating($specialnist, $specialnist2, $specialnist3, $course, $formaNavch, $okr, $vstupNaOsnovi) {
     global $conn;
     if ($course != '') {
         $tableValue = '';
         if ($course != '5') {
             //echo "курс 1 \n";
+            $naprFac = explode(' - ', $specialnist);
+            $naprFac3 = explode(' - ', $specialnist3);
+            echo $naprFac[0] . '  ----  ' . $naprFac[1] . '  ----  ' . $naprFac3[1];
             $resultTable = $conn->prepare('SELECT `e6`, `e2`, `e4`, `e8`, `e29`, `e30`, replace(`e12`, ",", ".") as `ce12`, `e41`, `e14`, `e7`, `e43`, `e0`, `e11` 
                 FROM `entrant`
                 WHERE
                 (`e14` = :specialnist) and 
+                (`e18` = :faculty) and 
                 (`e7` = :course) and 
                 (`e4` IN ("Допущено", "Рекомендовано", "До наказу", "Нова заява") and
                 (`e8` = :formaNavch) and
                 (`e43` like :vstupNaOsnovi ))
                 ORDER BY `ce12` DESC;');
             $resultTable->bindValue(':vstupNaOsnovi', '%'.$vstupNaOsnovi.'%', PDO::PARAM_INT);
-            $resultTable->bindValue(':specialnist', $specialnist, PDO::PARAM_STR);
+            $resultTable->bindValue(':specialnist', $naprFac[0], PDO::PARAM_STR);
+            if ($formaNavch == 'Денна') {
+                $resultTable->bindValue(':faculty', $naprFac[1], PDO::PARAM_STR);
+            } else {
+                $resultTable->bindValue(':faculty', $naprFac3[1], PDO::PARAM_STR);
+            }
+//            $resultTable->bindValue(':faculty', $naprFac[1], PDO::PARAM_STR);
         } else {            
             //echo "курс 5 \n" . $specialnist . ' ' . $course . ' ' . $okr;
             
@@ -141,12 +151,21 @@ TABLERESULT;
 
 $specialnist = $_POST['specialnist'];
 $specialnist2 = $_POST['specialnist2'];
+$specialnist3 = $_POST['specialnist3'];
 $course = $_POST['course'];
 $formaNavch = $_POST['formaNavch'];
 $okr = $_POST['okr'];
 $vstupNaOsnovi = $_POST['vstupNaOsnovi'];
 
-showEntrantRating($specialnist, $specialnist2, $course, $formaNavch, $okr, $vstupNaOsnovi);
+//echo $specialnist . '<br />' .
+//        $specialnist2 . '<br />' .
+//        $specialnist3 . '<br />' .
+//        $course . '<br />' .
+//        $formaNavch . '<br />' .
+//        $okr . '<br />' .
+//        $vstupNaOsnovi . '<br />';
+
+showEntrantRating($specialnist, $specialnist2, $specialnist3, $course, $formaNavch, $okr, $vstupNaOsnovi);
 
 //echo "<pre>";
 //var_dump($_SERVER);

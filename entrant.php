@@ -20,16 +20,22 @@
 require_once 'config.php';
 
 // вибір напряму
-function getSpecialnist() {
+function getSpecialnist($studyForm = 'Денна') {
     global $conn;
-    $resultSpecialnist = $conn->prepare('SELECT `e14` FROM `entrant` GROUP BY `e14` ASC');
+    $resultSpecialnist = $conn->prepare('SELECT DISTINCT CONCAT(`e14`, " - " ,`e18`) AS `specFac`, `e14`, `e18` FROM `entrant`  WHERE `e8` = :studyForm GROUP BY `specFac` ASC ');
+    $resultSpecialnist->bindParam('studyForm', $studyForm, PDO::PARAM_STR);
     $resultSpecialnist->execute();
+    
+    $labelZaoch = ($studyForm == 'Заочна' ? '3' : '');
+    $visibleSelect = ($studyForm == 'Заочна' ? ' style="display: none;"' : '');
 
-    echo '<div class="col-md-3" id="napr">';
+    echo '<div class="col-md-3" id="napr"' . $visibleSelect . '>';
     echo '<label>Напрям підготовки</label>';
-    echo '<select name="specialnist" id="specialnist" class="form-control">';
+    echo '<select name="specialnist' . $labelZaoch . '" id="specialnist' . $labelZaoch . '" class="form-control">';
     while ($row = $resultSpecialnist->fetch()) {
-        echo '<option>' . ($row['e14']) . '</option>' . "\n";
+        if ($row['e14'] != NULL) {
+            echo '<option>' . ($row['specFac']) . '</option>' . "\n";
+        }
     }
     echo '</select></div>';
 }
@@ -112,6 +118,7 @@ function showNavbar() {
 NAVBAR;
 
     getSpecialnist();
+    getSpecialnist('Заочна');
     getSpecialnist2();
     getCourse();
     getFormaNavchannya();
@@ -153,6 +160,7 @@ function showTableWrapper() {
             $("#table-wrapper").load("$sitePath", {
                 specialnist: $('#specialnist').val(), 
                 specialnist2: $('#specialnist2').val(), 
+                specialnist3: $('#specialnist3').val(), 
                 course: $('#course').val(),                 
                 okr: $('#okr').val(),
                 formaNavch: $('#forma-navch').val(),
