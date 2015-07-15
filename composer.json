@@ -11,9 +11,7 @@
         "vendor-dir": "lib"
     },
     "require": {
-        "phpexcel/phpexcel": "1.7.*",
         "twitter/bootstrap": "3.2.*",
-        "datatables/datatables": "1.10.*",
-        "codeguy/upload": "*"
+        "datatables/datatables": "1.10.*"
     }
 }

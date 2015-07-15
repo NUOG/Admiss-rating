@@ -81,7 +81,7 @@ function showEntrantRating($specialnist, $specialnist2, $specialnist3, $course, 
             //echo "курс 1 \n";
             $naprFac = explode(' - ', $specialnist);
             $naprFac3 = explode(' - ', $specialnist3);
-            echo $naprFac[0] . '  ----  ' . $naprFac[1] . '  ----  ' . $naprFac3[1];
+            //echo $naprFac[0] . '  ----  ' . $naprFac[1] . '  ----  ' . $naprFac3[1];
             $resultTable = $conn->prepare('SELECT `e6`, `e2`, `e4`, `e8`, `e29`, `e30`, replace(`e12`, ",", ".") as `ce12`, `e41`, `e14`, `e7`, `e43`, `e0`, `e11` 
                 FROM `entrant`
                 WHERE

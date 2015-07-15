@@ -30,7 +30,7 @@
         <script src="lib/datatables/datatables/media/js/jquery.js" type="text/javascript"></script>
         <script src="lib/datatables/datatables/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
         <script src="lib/twitter/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
-        <title>Admiss::report</title>
+        <title>Рейтинг вступників ІФНТУНГ 2014</title>
         
     </head>
     <body class="container-fluid">
@@ -47,8 +47,19 @@
         
         <footer class="container">
             &copy; <a href="http://brun.if.ua/" title="Розробка сайтів">Ігор Броновський</a> 2014. Пропозиції/побажання залишайте <a href="http://brun.if.ua/contact">тут</a>. <br />
-            Допомогти чи приєднатисьс до розробки <a href="https://github.com/NUOG/Admiss-rating">Github::Admiss-rating</a>
+            Допомогти чи приєднатись до розробки <a href="https://github.com/NUOG/Admiss-rating">Github::Admiss-rating</a>
         </footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-560938-12', 'auto');
+  ga('send', 'pageview');
+
+</script>
 
     </body>
 </html>
