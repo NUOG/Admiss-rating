@@ -22,7 +22,8 @@ require_once 'config.php';
 // вибір напряму
 function getSpecialnist($studyForm = 'Денна') {
     global $conn;
-    $resultSpecialnist = $conn->prepare('SELECT DISTINCT CONCAT(`e14`, " - " ,`e18`) AS `specFac`, `e14`, `e18` FROM `entrant`  WHERE `e8` = :studyForm GROUP BY `specFac` ASC ');
+//    $resultSpecialnist = $conn->prepare('SELECT DISTINCT CONCAT(`e15`, " - " ,`e17`) AS `specFac`, `e15`, `e17` FROM `entrant`  WHERE `e9` = :studyForm GROUP BY `specFac` ASC ');
+    $resultSpecialnist = $conn->prepare('SELECT `e15`, `e17` FROM `entrant`  WHERE `e9` = :studyForm GROUP BY `e15` ASC ');
     $resultSpecialnist->bindParam('studyForm', $studyForm, PDO::PARAM_STR);
     $resultSpecialnist->execute();
     
@@ -33,8 +34,8 @@ function getSpecialnist($studyForm = 'Денна') {
     echo '<label>Напрям підготовки</label>';
     echo '<select name="specialnist' . $labelZaoch . '" id="specialnist' . $labelZaoch . '" class="form-control">';
     while ($row = $resultSpecialnist->fetch()) {
-        if ($row['e14'] != NULL) {
-            echo '<option>' . ($row['specFac']) . '</option>' . "\n";
+        if ($row['e15'] != NULL) {
+            echo '<option>' . ($row['e15']) . '</option>' . "\n";
         }
     }
     echo '</select></div>';
@@ -43,14 +44,14 @@ function getSpecialnist($studyForm = 'Денна') {
 // вибір спеціальності
 function getSpecialnist2() {
     global $conn;
-    $resultSpecialnist = $conn->prepare('SELECT `e16` FROM `entrant` GROUP BY `e16` ASC');
+    $resultSpecialnist = $conn->prepare('SELECT `e17` FROM `entrant` GROUP BY `e17` ASC');
     $resultSpecialnist->execute();
 
     echo '<div class="col-md-3" id="spec" style="display: none;">';
     echo '<label>Спеціальність</label>';
     echo '<select name="specialnist2" id="specialnist2" class="form-control">';
     while ($row = $resultSpecialnist->fetch()) {
-        echo '<option>' . ($row['e16']) . '</option>' . "\n";
+        echo '<option>' . ($row['e17']) . '</option>' . "\n";
     }
     echo '</select></div>';
 }
@@ -58,14 +59,14 @@ function getSpecialnist2() {
 // вибір курсів
 function getCourse() {
     global $conn;
-    $resultSpecialnist = $conn->prepare('SELECT `e7` FROM `entrant` GROUP BY `e7` ASC');
+    $resultSpecialnist = $conn->prepare('SELECT `e8` FROM `entrant` GROUP BY `e8` ASC');
     $resultSpecialnist->execute();
     
     echo '<div class="col-md-2">';
     echo '<label>Курс</label>';
     echo '<select name="course" id="course" class="form-control">';
     while ($row = $resultSpecialnist->fetch()) {
-        echo '<option>' . ($row['e7']) . '</option>' . "\n";
+        echo '<option>' . ($row['e8']) . '</option>' . "\n";
     }
     echo '</select></div>';
 }
@@ -73,14 +74,14 @@ function getCourse() {
 // вибір форм навчання
 function getFormaNavchannya() {
     global $conn;
-    $resultSpecialnist = $conn->prepare('SELECT `e8` FROM `entrant` GROUP BY `e8` ASC');
+    $resultSpecialnist = $conn->prepare('SELECT `e9` FROM `entrant` GROUP BY `e9` ASC');
     $resultSpecialnist->execute();
     
     echo '<div class="col-md-2">';
     echo '<label>Форма навчання</label>';
     echo '<select name="forma-navch" id="forma-navch" class="form-control">';
     while ($row = $resultSpecialnist->fetch()) {
-        echo '<option>' . ($row['e8']) . '</option>' . "\n";
+        echo '<option>' . ($row['e9']) . '</option>' . "\n";
     }
     echo '</select></div>';
 }
@@ -207,6 +208,7 @@ function drawTable($tableValue) {
             <th>Пільга</th>
             <th>Бал</th>
             <th><abbr title="Оригінал документів">ОД</abbr></th>
+            <th>Пріоритет</th>
             <th>Примітки</th>
         </tr>
     </thead>
@@ -219,6 +221,7 @@ function drawTable($tableValue) {
             <th>Пільга</th>
             <th>Бал</th>
             <th><abbr title="Оригінал документів">ОД</abbr></th>
+            <th>Пріоритет</th>
             <th>Примітки</th>
         </tr>
     </tfoot>
@@ -232,7 +235,8 @@ function drawTable($tableValue) {
     
             <script>
             $(document).ready(function() {
-                $('#resultTable').dataTable({ 
+                $('#resultTable').dataTable({
+		responsive: true, 
                 "fnDrawCallback": function ( oSettings ) {
                             /* Need to redo the counters if filtered or sorted */
                             if ( oSettings.bSorted || oSettings.bFiltered )
@@ -251,7 +255,7 @@ function drawTable($tableValue) {
             
                     /* "order": [[ 5, "desc" ], [ 4, "desc" ]], */
             
-                    "order": [[ 3, "desc" ], [ 4, "desc" ]],
+                    "order": [[ 6, "asc" ], [ 4, "desc" ]],
             
                     "aLengthMenu": [
                             [25, 50, 100, 200, -1],

@@ -21,7 +21,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <meta name="keywords" content="приймальна комісія, рейтинг, абітурієнт, вступ, 2014, єдебо, єдбо, івано-франківськ" />
+        <meta name="keywords" content="приймальна комісія, рейтинг, абітурієнт, вступ, 2014, 2015, єдебо, єдбо, івано-франківськ" />
         <meta name="author" content="Ігор Броновський" />
         <link rel="author" href="https://plus.google.com/+ІгорБроновський/posts"/>
         <link href="lib/twitter/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
@@ -30,12 +30,28 @@
         <script src="lib/datatables/datatables/media/js/jquery.js" type="text/javascript"></script>
         <script src="lib/datatables/datatables/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
         <script src="lib/twitter/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
-        <title>Рейтинг вступників ІФНТУНГ 2014</title>
+	<!-- Responsive -->
+	<link href="//cdn.datatables.net/responsive/1.0.6/css/dataTables.responsive.css" rel="stylesheet" type="text/css"/>
+	<script src="//cdn.datatables.net/responsive/1.0.6/js/dataTables.responsive.js" type="text/javascript"></script>
+        <title>Рейтинг вступників ІФНТУНГ 2015</title>
+	<style>/* 
+	#vstup-na > label {
+	    white-space: nowrap;
+	}
+	tr th:nth-child(1), tr td:nth-child(1), 
+	tr th:nth-child(5), tr td:nth-child(5), 
+	tr th:nth-child(6), tr td:nth-child(6), 
+	tr th:nth-child(7), tr td:nth-child(7) {
+	    max-width: 25px;
+	    text-align: center;
+	    overflow: hidden;
+	}*/
+	</style>
         
     </head>
     <body class="container-fluid">
         <h3 class="text-center">Інформація про подання документів до<br />
-        Івано-Франківського національного технічного університету нафти і газу у 2014 </h3>
+        Івано-Франківського національного технічного університету нафти і газу у 2015</h3>
         <?php
         require_once 'entrant.php';
        
@@ -46,7 +62,7 @@
         ?>
         
         <footer class="container">
-            &copy; <a href="http://brun.if.ua/" title="Розробка сайтів">Ігор Броновський</a> 2014. Пропозиції/побажання залишайте <a href="http://brun.if.ua/contact">тут</a>. <br />
+            &copy; <a href="http://brun.if.ua/" title="Розробка сайтів">Ігор Броновський</a> 2014-2015. Пропозиції/побажання залишайте <a href="http://brun.if.ua/contact">тут</a>. <br />
             Допомогти чи приєднатись до розробки <a href="https://github.com/NUOG/Admiss-rating">Github::Admiss-rating</a>
         </footer>
 

@@ -81,37 +81,36 @@ function showEntrantRating($specialnist, $specialnist2, $specialnist3, $course, 
             //echo "курс 1 \n";
             $naprFac = explode(' - ', $specialnist);
             $naprFac3 = explode(' - ', $specialnist3);
-            //echo $naprFac[0] . '  ----  ' . $naprFac[1] . '  ----  ' . $naprFac3[1];
-            $resultTable = $conn->prepare('SELECT `e6`, `e2`, `e4`, `e8`, `e29`, `e30`, replace(`e12`, ",", ".") as `ce12`, `e41`, `e14`, `e7`, `e43`, `e0`, `e11` 
+            // echo $naprFac[0] . '  ----  ' . $naprFac[1] . '  ----  ' . $naprFac3[1];
+
+            $resultTable = $conn->prepare('SELECT `e7`, `e2`, `e4`, `e9`, `e30`, `e31`, replace(`e13`, ",", ".") as `ce13`, `e43`, `e15`, `e8`, `e46`, `e47` 
                 FROM `entrant`
                 WHERE
-                (`e14` = :specialnist) and 
-                (`e18` = :faculty) and 
-                (`e7` = :course) and 
-                (`e4` IN ("Допущено", "Рекомендовано", "До наказу", "Нова заява") and
-                (`e8` = :formaNavch) and
-                (`e43` like :vstupNaOsnovi ))
-                ORDER BY `ce12` DESC;');
+                (`e15` = :specialnist) and 
+                (`e8` = :course) and 
+                (`e9` = :formaNavch) and
+		(`e46` like :vstupNaOsnovi)
+                ORDER BY `ce13` DESC;');
             $resultTable->bindValue(':vstupNaOsnovi', '%'.$vstupNaOsnovi.'%', PDO::PARAM_INT);
             $resultTable->bindValue(':specialnist', $naprFac[0], PDO::PARAM_STR);
-            if ($formaNavch == 'Денна') {
-                $resultTable->bindValue(':faculty', $naprFac[1], PDO::PARAM_STR);
-            } else {
-                $resultTable->bindValue(':faculty', $naprFac3[1], PDO::PARAM_STR);
-            }
+//            if ($formaNavch == 'Денна') {
+//                $resultTable->bindValue(':faculty', $naprFac[1], PDO::PARAM_STR);
+//            } else {
+//                $resultTable->bindValue(':faculty', $naprFac3[1], PDO::PARAM_STR);
+//            }
 //            $resultTable->bindValue(':faculty', $naprFac[1], PDO::PARAM_STR);
         } else {            
             //echo "курс 5 \n" . $specialnist . ' ' . $course . ' ' . $okr;
             
-            $resultTable = $conn->prepare('SELECT `e6`, `e2`, `e4`, `e8`, `e29`, `e30`, replace(`e12`, ",", ".") as `ce12`, `e41`, `e14`, `e16`, `e7`, `e43`, `e9`, `e0`, `e11` 
+            $resultTable = $conn->prepare('SELECT `e7`, `e2`, `e4`, `e9`, `e30`, `e31`, replace(`e13`, ",", ".") as `ce13`, `e43`, `e17`, `e8`, `e46`, `e47`  
                 FROM `entrant`
                 WHERE
-                (`e16` = :specialnist2) and 
-                (`e7` = :course) and 
-                (`e9` like :okr ) and
+                (`e17` = :specialnist2) and 
+                (`e8` = :course) and 
+                (`e10` like :okr ) and
                 (`e4` IN ("Допущено", "Рекомендовано", "До наказу", "Нова заява") and
-                (`e8` = :formaNavch))
-                ORDER BY `ce12` DESC;');
+                (`e9` = :formaNavch))
+                ORDER BY `ce13` DESC;');
             $resultTable->bindValue(':okr', '%'.$okr.'%', PDO::PARAM_STR);
             $resultTable->bindValue(':specialnist2', $specialnist2, PDO::PARAM_STR);
 
@@ -120,22 +119,25 @@ function showEntrantRating($specialnist, $specialnist2, $specialnist3, $course, 
             $resultTable->bindValue(':course', $course, PDO::PARAM_INT);
             $resultTable->bindValue(':formaNavch', $formaNavch, PDO::PARAM_STR);
             $resultTable->execute();
+
+// echo '<pre>' . var_dump($resultTable) . '</pre>';
             
         $i = 1;
         while ($row = $resultTable->fetch()) {
-            $original = isOriginal($row['e41']);
+            $original = isOriginal($row['e43']);
             //$pozaKonkurs = isOriginal($row['e30']);
-            $status = isStatus($row['e4'], $row['e0'], $row['e11']);
-            $pilga = isOriginal($row['e29']);
+            //       $status = isStatus($row['e4'], $row['e0'], $row['e11']);
+            $pilga = isOriginal($row['e43']);
             $tableValue .= <<< TABLERESULT
             
                     <tr>
                         <td>$i</td>
-                        <td>$row[e6]</td>
+                        <td>$row[e7]</td>
                         <td>$row[e2]</td>
                         <td>$pilga</td>
-                        <td>$row[ce12]</td>
+                        <td>$row[ce13]</td>
                         <td>$original</td>
+                        <td>$row[e47]</td>
                         <td>$status</td>
                    
                     </tr>
@@ -157,16 +159,20 @@ $formaNavch = $_POST['formaNavch'];
 $okr = $_POST['okr'];
 $vstupNaOsnovi = $_POST['vstupNaOsnovi'];
 
-//echo $specialnist . '<br />' .
+//echo '<pre>' .
+//        $specialnist . '<br />' .
 //        $specialnist2 . '<br />' .
 //        $specialnist3 . '<br />' .
 //        $course . '<br />' .
 //        $formaNavch . '<br />' .
 //        $okr . '<br />' .
-//        $vstupNaOsnovi . '<br />';
+//        $vstupNaOsnovi . '<br /></pre>';
+
+//print ('<pre>' . var_dump($_POST) . '</pre>');
 
 showEntrantRating($specialnist, $specialnist2, $specialnist3, $course, $formaNavch, $okr, $vstupNaOsnovi);
 
 //echo "<pre>";
 //var_dump($_SERVER);
 //echo "</pre>";
+
