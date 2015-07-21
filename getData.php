@@ -83,15 +83,25 @@ function showEntrantRating($specialnist, $specialnist2, $specialnist3, $course, 
             $naprFac3 = explode(' - ', $specialnist3);
             // echo $naprFac[0] . '  ----  ' . $naprFac[1] . '  ----  ' . $naprFac3[1];
 
-            $resultTable = $conn->prepare('SELECT `e7`, `e2`, `e4`, `e9`, `e30`, `e31`, replace(`e13`, ",", ".") as `ce13`, `e43`, `e15`, `e8`, `e46`, `e47` 
+            $resultTable = $conn->prepare('SELECT `e7`, `e2`, `e4`, `e9`, `e30`, `e31`, replace(`e13`, ",", ".") as `ce13`, `e43`, `e15`, `e8`, `e46`, `e47`, `e22` 
                 FROM `entrant`
                 WHERE
                 (`e15` = :specialnist) and 
                 (`e8` = :course) and 
                 (`e9` = :formaNavch) and
-		(`e46` like :vstupNaOsnovi)
+		(`e22` like :documentType) and
+		(`e4` NOT like :canceledByUser)
                 ORDER BY `ce13` DESC;');
-            $resultTable->bindValue(':vstupNaOsnovi', '%'.$vstupNaOsnovi.'%', PDO::PARAM_INT);
+//            $resultTable->bindValue(':vstupNaOsnovi', '%'.$vstupNaOsnovi.'%', PDO::PARAM_INT);
+	if ($vstupNaOsnovi == 102) {
+		$documentType = 'Атестат про повну загальну середню освіту';
+	} else {
+		$documentType = 'Диплом молодшого спеціаліста';
+	}
+	$resultTable->bindValue(':documentType', '%'.$documentType.'%', PDO::PARAM_STR);
+	$canceledByUser = 'Скасовано';
+	$resultTable->bindValue(':canceledByUser', '%'.$canceledByUser.'%', PDO::PARAM_STR);
+
             $resultTable->bindValue(':specialnist', $naprFac[0], PDO::PARAM_STR);
 //            if ($formaNavch == 'Денна') {
 //                $resultTable->bindValue(':faculty', $naprFac[1], PDO::PARAM_STR);

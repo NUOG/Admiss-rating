@@ -97,14 +97,27 @@ function getVstupylyNaOsnovi() {
 }
 
 // кількість вступників
-function getEntrantCount() {
+function getentrantcount() {
     global $conn;
-    $resultSpecialnist = $conn->prepare('SELECT count(`ID`) as `entrant-count` FROM `entrant`');
-    $resultSpecialnist->execute();
+    $resultspecialnist = $conn->prepare('select count(`id`) as `entrant-count` from `entrant`');
+    $resultspecialnist->execute();
     
     echo '<div class="container">';
-    while ($row = $resultSpecialnist->fetch()) {
-        echo '<p>Кількість заяв: ' . ($row['entrant-count']) . '</p>' . "\n";
+    while ($row = $resultspecialnist->fetch()) {
+        echo '<p>Кількість заяв: <strong>' . ($row['entrant-count']) . '</strong></p>' . "\n";
+    }
+    echo '</div>';
+}
+
+// останнє оновлення 
+function getLastUpdate() {
+    global $conn;
+    $resultspecialnist = $conn->prepare('select max(`e20`) as `lastUpdate` from entrant;');
+    $resultspecialnist->execute();
+    
+    echo '<div class="container">';
+    while ($row = $resultspecialnist->fetch()) {
+        echo '<p>Останнє оновлення: <strong>' . ($row['lastUpdate']) . '</strong></p>' . "\n";
     }
     echo '</div>';
 }
@@ -191,7 +204,8 @@ function showTableWrapper() {
     </script>
    
 TABLE;
-    
+   
+    getLastUpdate(); 
     getEntrantCount();
 
 }
