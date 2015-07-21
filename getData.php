@@ -83,7 +83,7 @@ function showEntrantRating($specialnist, $specialnist2, $specialnist3, $course, 
             $naprFac3 = explode(' - ', $specialnist3);
             // echo $naprFac[0] . '  ----  ' . $naprFac[1] . '  ----  ' . $naprFac3[1];
 
-            $resultTable = $conn->prepare('SELECT `e7`, `e2`, `e4`, `e9`, `e30`, `e31`, replace(`e13`, ",", ".") as `ce13`, `e43`, `e15`, `e8`, `e46`, `e47`, `e22` 
+            $resultTable = $conn->prepare('SELECT `e7`, `e2`, `e4`, `e9`, `e30`, `e31`, replace(`e13`, ",", ".") as `ce13`, `e30`, `e42`, `e15`, `e8`, `e46`, `e47`, `e22` 
                 FROM `entrant`
                 WHERE
                 (`e15` = :specialnist) and 
@@ -112,7 +112,7 @@ function showEntrantRating($specialnist, $specialnist2, $specialnist3, $course, 
         } else {            
             //echo "курс 5 \n" . $specialnist . ' ' . $course . ' ' . $okr;
             
-            $resultTable = $conn->prepare('SELECT `e7`, `e2`, `e4`, `e9`, `e30`, `e31`, replace(`e13`, ",", ".") as `ce13`, `e43`, `e17`, `e8`, `e46`, `e47`  
+            $resultTable = $conn->prepare('SELECT `e7`, `e2`, `e4`, `e9`, `e30`, `e31`, replace(`e13`, ",", ".") as `ce13`, `e30`, `e42`, `e17`, `e8`, `e46`, `e47`  
                 FROM `entrant`
                 WHERE
                 (`e17` = :specialnist2) and 
@@ -134,10 +134,10 @@ function showEntrantRating($specialnist, $specialnist2, $specialnist3, $course, 
             
         $i = 1;
         while ($row = $resultTable->fetch()) {
-            $original = isOriginal($row['e43']);
+            $original = isOriginal($row['e42']);
             //$pozaKonkurs = isOriginal($row['e30']);
             //       $status = isStatus($row['e4'], $row['e0'], $row['e11']);
-            $pilga = isOriginal($row['e43']);
+            $pilga = isOriginal($row['e30']);
             $tableValue .= <<< TABLERESULT
             
                     <tr>
